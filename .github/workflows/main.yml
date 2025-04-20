@@ -76,15 +76,15 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          ghcr.io/${{ github.repository_owner }}/frontend
-          ghcr.io/${{ github.repository_owner }}/backend
+          ghcr.io/${{ env.OWNER_LC }}/frontend
+          ghcr.io/${{ env.OWNER_LC }}/backend
           
     - name: Build and push Frontend Docker image
       uses: docker/build-push-action@v4
       with:
         context: ./frontend
         push: true
-        tags: ghcr.io/${{ github.repository_owner_id }}/frontend:latest
+        tags: ghcr.io/${{ env.OWNER_LC }}/frontend:latest
         labels: ${{ steps.meta.outputs.labels }}
         
     - name: Build and push Backend Docker image
@@ -92,7 +92,7 @@ jobs:
       with:
         context: ./backend
         push: true
-        tags: ghcr.io/${{ github.repository_owner_id }}/backend:latest
+        tags: ghcr.io/${{ env.OWNER_LC }}/backend:latest
         labels: ${{ steps.meta.outputs.labels }}
         
   deploy:
@@ -119,7 +119,7 @@ jobs:
             repo: context.repo.repo,
             deployment_id: deployment.data.id,
             state: 'success',
-            environment_url: 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/packages',
+            environment_url: 'https://github.com/' + context.repo.owner.toLowerCase() + '/' + context.repo.repo + '/packages',
             log_url: 'https://github.com/' + context.repo.owner + '/' + context.repo.repo + '/actions/runs/' + context.runId,
             description: 'Deployment successful!'
           });
