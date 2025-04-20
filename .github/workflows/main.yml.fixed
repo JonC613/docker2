@@ -76,15 +76,15 @@ jobs:
       uses: docker/metadata-action@v4
       with:
         images: |
-          ghcr.io/${{ github.repository_owner }}/frontend
-          ghcr.io/${{ github.repository_owner }}/backend
+          ghcr.io/${{ format(github.repository_owner, '') | lower }}/frontend
+          ghcr.io/${{ format(github.repository_owner, '') | lower }}/backend
           
     - name: Build and push Frontend Docker image
       uses: docker/build-push-action@v4
       with:
         context: ./frontend
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}/frontend:latest
+        tags: ghcr.io/${{ format(github.repository_owner, '') | lower }}/frontend:latest
         labels: ${{ steps.meta.outputs.labels }}
         
     - name: Build and push Backend Docker image
@@ -92,7 +92,7 @@ jobs:
       with:
         context: ./backend
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}/backend:latest
+        tags: ghcr.io/${{ format(github.repository_owner, '') | lower }}/backend:latest
         labels: ${{ steps.meta.outputs.labels }}
         
   deploy:
